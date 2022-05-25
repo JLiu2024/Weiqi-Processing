@@ -26,4 +26,8 @@ public class Point{
   float   y2) {       
     return Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
   }
+
+  public int getStatus() {
+    return status;
+  }
 }

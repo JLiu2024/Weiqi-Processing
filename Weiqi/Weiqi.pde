@@ -49,12 +49,18 @@ void draw() {
       }
     } else {
       background(252,212,156);
+
       float startingX = (width/2)-400;
-        float startingY = (height/2)-400;
+      float startingY = (height/2)-400;
 
         for(int i=0; i<9; i++) {
           for(int j=0; j<9; j++) {
             drawPoint(startingX,startingY);
+            if(grid[i][j].getStatus>0) {
+              placeWhiteStone(startingX,startingY);
+            } else if(grid[i][j].getStatus<0) {
+              placeBlackStone(startingX,startingY);
+            }
             startingX+=100;
           }
           startingX = (width/2)-400;
@@ -66,4 +72,13 @@ void draw() {
 
 void drawPoint(float x, float y) {
   circle(x, y, 30);
+}
+
+void placeWhiteStone(float x, float y) {
+  circle(x,y,100);
+  fill(255);
+}
+
+void placeBlackStone(float x, float y) {
+  circle(x,y,100);
 }
