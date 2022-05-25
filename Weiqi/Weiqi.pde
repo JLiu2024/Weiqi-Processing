@@ -50,23 +50,24 @@ void draw() {
     } else {
       background(252,212,156);
 
-      float startingX = (width/2)-400;
-      float startingY = (height/2)-400;
+      float currentX = (width/2)-400;
+      float currentY = (height/2)-400;
 
         for(int i=0; i<9; i++) {
           for(int j=0; j<9; j++) {
-            drawPoint(startingX,startingY);
-            if(grid[i][j].getStatus>0) {
-              placeWhiteStone(startingX,startingY);
-            } else if(grid[i][j].getStatus<0) {
-              placeBlackStone(startingX,startingY);
+            drawPoint(currentX,currentY);
+            
+            if(grid[i][j].getStatus() > 0) {
+              placeWhiteStone(currentX,currentY);
+            } else if(grid[i][j].getStatus() < 0) {
+              placeBlackStone(currentX,currentY);
             }
-            startingX+=100;
+            
+            currentX+=100;
           }
-          startingX = (width/2)-400;
-          startingY+=100;
-
-      
+          currentX = (width/2)-400;
+          currentY+=100;
+    }
   }
 }
 
