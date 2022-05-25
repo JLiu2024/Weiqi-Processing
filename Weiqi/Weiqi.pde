@@ -4,6 +4,7 @@ void setup() {
 }
 
 boolean runningGame=false;
+Point[][] grid = new Point[9][9];
 
 void draw() {
   if(!runningGame) {
@@ -32,7 +33,7 @@ void draw() {
       
       //draw grid, starting with 9x9 grid of points
       
-      Point[][] grid = new Point[9][9];
+      
       
       drawPoint(width/2, height/2);
       
@@ -41,7 +42,7 @@ void draw() {
 
       for(int i=0; i<9; i++) {
         for(int j=0; j<9; j++) {
-          
+          grid[i][j] = 
         }
       }
       
