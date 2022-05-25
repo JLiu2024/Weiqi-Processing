@@ -1,2 +1,2 @@
 # Weiqi-Processing
-2 player Weiqi simulator using primative rules
+Two player Weiqi simulator using primative rules.
