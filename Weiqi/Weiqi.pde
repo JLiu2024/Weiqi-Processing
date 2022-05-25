@@ -5,7 +5,7 @@ void setup() {
 
 boolean runningGame=false;
 Point[][] grid = new Point[9][9];
-boolean playerTurn = -1; //-1 is black, 1 is white
+int playerTurn = -1; //-1 is black, 1 is white
 
 void draw() {
   if(!runningGame) {
@@ -26,7 +26,7 @@ void draw() {
       int lastMouseX = mouseX;
       int lastMouseY = mouseY;
     
-      if(mousePressed==true && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
+      if(mouseClicked==true && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
         
         //initialize grid, start with 9x9 grid of points
       
@@ -114,15 +114,15 @@ void draw() {
     int lastMouseX = mouseX;
     int lastMouseY = mouseY;
     
-    if(mousePressed==true) {
+    if(mouseClicked==true) {
       for(int i=0; i<9; i++) {
         for(int j=0; j<9; j++) {
           if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
             grid[i][j].setStatus(playerTurn);
             if(playerTurn==1) {
-              playerTurn-=2;
+              playerTurn=-1;
             } else {
-              playerTurn+=2;
+              playerTurn=1;
             }
           }
         }
@@ -136,11 +136,11 @@ void drawPoint(float x, float y) {
 }
 
 void placeWhiteStone(float x, float y) {
-  circle(x,y,72);
   fill(255);
+  circle(x,y,72);
+  fill(0);
 }
 
 void placeBlackStone(float x, float y) {
   circle(x,y,72);
-  fill(0);
 }
