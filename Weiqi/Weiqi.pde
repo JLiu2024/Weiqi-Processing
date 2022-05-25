@@ -5,6 +5,7 @@ void setup() {
 
 boolean runningGame=false;
 Point[][] grid = new Point[9][9];
+boolean playerTurn = -1; //-1 is black, 1 is white
 
 void draw() {
   if(!runningGame) {
@@ -68,6 +69,8 @@ void draw() {
         runningGame=true;
       }
     } else {
+      //game being played
+
       background(252,212,156);
 
       float currentX = (width/2)-600;
@@ -91,22 +94,40 @@ void draw() {
       currentX = (width/2)-600;
       currentY = (height/2)-600;
 
-        for(int i=0; i<9; i++) {
-          for(int j=0; j<9; j++) {
-            drawPoint(currentX,currentY);
-            
-            if(grid[i][j].getStatus() > 0) {
-              placeWhiteStone(currentX,currentY);
-            } else if(grid[i][j].getStatus() < 0) {
-              placeBlackStone(currentX,currentY);
-            }
-            
-            currentX+=150;
+      for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+          drawPoint(currentX,currentY);
+          
+          if(grid[i][j].getStatus() > 0) {
+            placeWhiteStone(currentX,currentY);
+          } else if(grid[i][j].getStatus() < 0) {
+            placeBlackStone(currentX,currentY);
           }
-          currentX = (width/2)-600;
-          currentY+=150;
+          
+          currentX+=150;
+        }
+        currentX = (width/2)-600;
+        currentY+=150;
     }
-  }
+
+    //last frame's game positions have been drawn. time to check for new inputs.
+    int lastMouseX = mouseX;
+    int lastMouseY = mouseY;
+    
+    if(mousePressed==true) {
+      for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+          if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
+            grid[i][j].setStatus(playerTurn);
+            if(playerTurn==1) {
+              playerTurn-=2;
+            } else {
+              playerTurn+=2;
+            }
+          }
+        }
+      }
+    }
 }
 
 void drawPoint(float x, float y) {

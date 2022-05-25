@@ -11,7 +11,7 @@ public class Point{
     status = 0;
   }
   
-  public boolean isPoint(float xLoc, float yLoc) {
+  public boolean wasClicked(float xLoc, float yLoc) {
     return(dist(xVal,yVal,xLoc,yLoc)<=15);
   }
   
@@ -30,4 +30,6 @@ public class Point{
   public int getStatus() {
     return status;
   }
+
+
 }
