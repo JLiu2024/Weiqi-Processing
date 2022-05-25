@@ -27,22 +27,22 @@ void draw() {
     
       if(mousePressed==true && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
         
-        //initialize grid, starting with 9x9 grid of points
+        //initialize grid, start with 9x9 grid of points
       
         drawPoint(width/2, height/2);
         
-        float startingX = (width/2)-400;
-        float startingY = (height/2)-400;
+        float currentX = (width/2)-600;
+        float currentY = (height/2)-600;
 
         for(int i=0; i<9; i++) {
           for(int j=0; j<9; j++) {
-            Point p = new Point(startingX,startingY);
+            Point p = new Point(currentX,currentY);
             grid[i][j] = p;
-            drawPoint(startingX,startingY);
-            startingX+=100;
+            drawPoint(currentX,currentY);
+            currentX+=150;
           }
-          startingX = (width/2)-400;
-          startingY+=100;
+          currentX = (width/2)-600;
+          currentY+=150;
         }
         
         runningGame=true;
@@ -50,8 +50,8 @@ void draw() {
     } else {
       background(252,212,156);
 
-      float currentX = (width/2)-400;
-      float currentY = (height/2)-400;
+      float currentX = (width/2)-600;
+      float currentY = (height/2)-600;
 
         for(int i=0; i<9; i++) {
           for(int j=0; j<9; j++) {
@@ -63,10 +63,10 @@ void draw() {
               placeBlackStone(currentX,currentY);
             }
             
-            currentX+=100;
+            currentX+=150;
           }
-          currentX = (width/2)-400;
-          currentY+=100;
+          currentX = (width/2)-600;
+          currentY+=150;
     }
   }
 }
@@ -76,10 +76,11 @@ void drawPoint(float x, float y) {
 }
 
 void placeWhiteStone(float x, float y) {
-  circle(x,y,100);
+  circle(x,y,70);
   fill(255);
 }
 
 void placeBlackStone(float x, float y) {
-  circle(x,y,100);
+  circle(x,y,70);
+  fill(0);
 }
