@@ -49,9 +49,11 @@ void draw() {
 
         currentX = (width/2)-600;
         currentY = (height/2)-600;
+        
+        strokeWeight(2);
 
         for(int i=0; i<9; i++) {
-          line(currentX, currentY, currentX+1350, currentY);
+          line(currentX, currentY, currentX+1200, currentY);
           currentY+=150;
         }
 
@@ -59,7 +61,7 @@ void draw() {
         currentY = (height/2)-600;
 
         for(int i=0; i<9; i++) {
-          line(currentX, currentY, currentX, currentY+1350);
+          line(currentX, currentY, currentX, currentY+1200);
           currentX+=150;
         }
         
@@ -68,8 +70,13 @@ void draw() {
     } else {
       background(252,212,156);
 
+      float currentX = (width/2)-600;
+      float currentY = (height/2)-600;
+      
+      strokeWeight(2);
+
       for(int i=0; i<9; i++) {
-        line(currentX, currentY, currentX+1350, currentY);
+        line(currentX, currentY, currentX+1200, currentY);
         currentY+=150;
       }
 
@@ -77,15 +84,12 @@ void draw() {
       currentY = (height/2)-600;
 
       for(int i=0; i<9; i++) {
-        line(currentX, currentY, currentX, currentY+1350);
+        line(currentX, currentY, currentX, currentY+1200);
         currentX+=150;
       }
 
       currentX = (width/2)-600;
       currentY = (height/2)-600;
-
-      float currentX = (width/2)-600;
-      float currentY = (height/2)-600;
 
         for(int i=0; i<9; i++) {
           for(int j=0; j<9; j++) {
