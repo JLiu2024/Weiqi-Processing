@@ -6,6 +6,8 @@ void setup() {
 boolean runningGame=false;
 Point[][] grid = new Point[9][9];
 int playerTurn = -1; //-1 is black, 1 is white
+int lastMouseX = mouseX;
+int lastMouseY = mouseY;
 
 void draw() {
   if(!runningGame) {
@@ -23,50 +25,9 @@ void draw() {
       textSize(86);
       text("New Game", width/2, 2*(height/3));
     
-      int lastMouseX = mouseX;
-      int lastMouseY = mouseY;
-    
-      if(mouseClicked==true && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
-        
-        //initialize grid, start with 9x9 grid of points
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
       
-        drawPoint(width/2, height/2);
-        
-        float currentX = (width/2)-600;
-        float currentY = (height/2)-600;
-
-        for(int i=0; i<9; i++) {
-          for(int j=0; j<9; j++) {
-            Point p = new Point(currentX,currentY);
-            grid[i][j] = p;
-            drawPoint(currentX,currentY);
-            currentX+=150;
-          }
-          currentX = (width/2)-600;
-          currentY+=150;
-        }
-
-        //now add the lines
-
-        currentX = (width/2)-600;
-        currentY = (height/2)-600;
-        
-        strokeWeight(2);
-
-        for(int i=0; i<9; i++) {
-          line(currentX, currentY, currentX+1200, currentY);
-          currentY+=150;
-        }
-
-        currentX = (width/2)-600;
-        currentY = (height/2)-600;
-
-        for(int i=0; i<9; i++) {
-          line(currentX, currentY, currentX, currentY+1200);
-          currentX+=150;
-        }
-        
-        runningGame=true;
       }
     } else {
       //game being played
@@ -111,23 +72,8 @@ void draw() {
     }
 
     //last frame's game positions have been drawn. time to check for new inputs.
-    int lastMouseX = mouseX;
-    int lastMouseY = mouseY;
-    
-    if(mouseClicked==true) {
-      for(int i=0; i<9; i++) {
-        for(int j=0; j<9; j++) {
-          if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
-            grid[i][j].setStatus(playerTurn);
-            if(playerTurn==1) {
-              playerTurn=-1;
-            } else {
-              playerTurn=1;
-            }
-          }
-        }
-      }
-    }
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
   }
 }
 
@@ -137,10 +83,68 @@ void drawPoint(float x, float y) {
 
 void placeWhiteStone(float x, float y) {
   fill(255);
-  circle(x,y,72);
+  circle(x,y,145);
   fill(0);
 }
 
 void placeBlackStone(float x, float y) {
-  circle(x,y,72);
+  circle(x,y,145);
+}
+
+void mouseClicked() {
+  if(!runningGame&& lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
+    //initialize grid, start with 9x9 grid of points
+      
+    drawPoint(width/2, height/2);
+    
+    float currentX = (width/2)-600;
+    float currentY = (height/2)-600;
+
+    for(int i=0; i<9; i++) {
+      for(int j=0; j<9; j++) {
+        Point p = new Point(currentX,currentY);
+        grid[i][j] = p;
+        drawPoint(currentX,currentY);
+        currentX+=150;
+      }
+      currentX = (width/2)-600;
+      currentY+=150;
+    }
+
+    //now add the lines
+
+    currentX = (width/2)-600;
+    currentY = (height/2)-600;
+    
+    strokeWeight(2);
+
+    for(int i=0; i<9; i++) {
+      line(currentX, currentY, currentX+1200, currentY);
+      currentY+=150;
+    }
+
+    currentX = (width/2)-600;
+    currentY = (height/2)-600;
+
+    for(int i=0; i<9; i++) {
+      line(currentX, currentY, currentX, currentY+1200);
+      currentX+=150;
+    }
+    
+    runningGame=true;
+
+  } else {
+    for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+          if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
+            grid[i][j].setStatus(playerTurn);
+            if(playerTurn==1) {
+              playerTurn=-1;
+            } else {
+              playerTurn=1;
+          }
+        }
+      }
+    }
+  }
 }
