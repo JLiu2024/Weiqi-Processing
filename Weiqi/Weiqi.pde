@@ -128,6 +128,7 @@ void draw() {
         }
       }
     }
+  }
 }
 
 void drawPoint(float x, float y) {
