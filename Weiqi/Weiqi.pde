@@ -34,8 +34,8 @@ void draw() {
         float startingX = (width/2)-400;
         float startingY = (height/2)-400;
 
-        for(int i=0; i<=9; i++) {
-          for(int j=0; j<=9; j++) {
+        for(int i=0; i<9; i++) {
+          for(int j=0; j<9; j++) {
             Point p = new Point(startingX,startingY);
             grid[i][j] = p;
             drawPoint(startingX,startingY);
@@ -49,7 +49,16 @@ void draw() {
       }
     } else {
       background(252,212,156);
-      
+      float startingX = (width/2)-400;
+        float startingY = (height/2)-400;
+
+        for(int i=0; i<9; i++) {
+          for(int j=0; j<9; j++) {
+            drawPoint(startingX,startingY);
+            startingX+=100;
+          }
+          startingX = (width/2)-400;
+          startingY+=100;
 
       
   }
