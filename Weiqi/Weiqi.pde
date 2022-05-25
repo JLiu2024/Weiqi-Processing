@@ -44,11 +44,45 @@ void draw() {
           currentX = (width/2)-600;
           currentY+=150;
         }
+
+        //now add the lines
+
+        currentX = (width/2)-600;
+        currentY = (height/2)-600;
+
+        for(int i=0; i<9; i++) {
+          line(currentX, currentY, currentX+1350, currentY);
+          currentY+=150;
+        }
+
+        currentX = (width/2)-600;
+        currentY = (height/2)-600;
+
+        for(int i=0; i<9; i++) {
+          line(currentX, currentY, currentX, currentY+1350);
+          currentX+=150;
+        }
         
         runningGame=true;
       }
     } else {
       background(252,212,156);
+
+      for(int i=0; i<9; i++) {
+        line(currentX, currentY, currentX+1350, currentY);
+        currentY+=150;
+      }
+
+      currentX = (width/2)-600;
+      currentY = (height/2)-600;
+
+      for(int i=0; i<9; i++) {
+        line(currentX, currentY, currentX, currentY+1350);
+        currentX+=150;
+      }
+
+      currentX = (width/2)-600;
+      currentY = (height/2)-600;
 
       float currentX = (width/2)-600;
       float currentY = (height/2)-600;
@@ -76,11 +110,11 @@ void drawPoint(float x, float y) {
 }
 
 void placeWhiteStone(float x, float y) {
-  circle(x,y,70);
+  circle(x,y,72);
   fill(255);
 }
 
 void placeBlackStone(float x, float y) {
-  circle(x,y,70);
+  circle(x,y,72);
   fill(0);
 }
