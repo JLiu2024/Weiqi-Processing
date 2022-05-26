@@ -27,8 +27,7 @@ void draw() {
     
       lastMouseX = mouseX;
       lastMouseY = mouseY;
-      
-      }
+
     } else {
       //game being played
 
@@ -83,12 +82,14 @@ void drawPoint(float x, float y) {
 
 void placeWhiteStone(float x, float y) {
   fill(255);
-  circle(x,y,145);
+  stroke(255);
+  circle(x,y,150);
   fill(0);
+  stroke(0);
 }
 
 void placeBlackStone(float x, float y) {
-  circle(x,y,145);
+  circle(x,y,150);
 }
 
 void mouseClicked() {
@@ -135,16 +136,24 @@ void mouseClicked() {
 
   } else {
     for(int i=0; i<9; i++) {
-        for(int j=0; j<9; j++) {
-          if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
-            grid[i][j].setStatus(playerTurn);
-            if(playerTurn==1) {
-              playerTurn=-1;
-            } else {
-              playerTurn=1;
+      for(int j=0; j<9; j++) {
+        if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
+          grid[i][j].setStatus(playerTurn);
+          if(playerTurn==1) {
+            playerTurn=-1;
+          } else {
+            playerTurn=1;
           }
         }
       }
     }
   }
+}
+
+void removeDeadStones() {
+  for(int i=0; i<9; i++) {
+      for(int j=0; j<9; j++) {
+        
+      }
+    }
 }
