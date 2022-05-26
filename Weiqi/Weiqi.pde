@@ -11,6 +11,8 @@ int lastMouseY = mouseY;
 double blackScore = 5;
 double whiteScore = 0;
 boolean removingStones = false;
+Player black = new Player(-1);
+Player white = new Player(1);
 
 void draw() {
   if(!runningGame) {
@@ -122,8 +124,8 @@ void placeBlackStone(float x, float y) {
 }
 
 void markSelect(float x, float y) {
-  fill(255);
-  stroke(255);
+  fill(255,0,0);
+  stroke(255,0,0);
   circle(x,y,50);
   fill(0);
   stroke(0);
@@ -174,8 +176,13 @@ void mouseClicked() {
   } else if(runningGame && lastMouseX>((width/2)+600+(width-1200)/4-250) && lastMouseX<((width/2)+600+(width-1200)/4+250)  && lastMouseY>((height/2)-600-100) && lastMouseY<((height/2)-600+100)) {
     if(removingStones) {
       removingStones=false;
+      for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+          grid[i][j].deselect();
+        }
+      }
     } else {
-      removingStones=true;
+    removingStones=true;
     }
   } else if(runningGame && !removingStones) {
     for(int i=0; i<9; i++) {
@@ -204,10 +211,22 @@ void mouseClicked() {
       }
     }
   } else if(runningGame && lastMouseX>((width/2)+600+(width-1200)/4-250) && lastMouseX<((width/2)+600+(width-1200)/4+250)  && lastMouseY>((height/2)-400-100) && lastMouseY<((height/2)-400+100)) {
-    
-    for(int i=0; i<9; i++) {
-      for(int j=0; j<9; j++) {
+    if(removingStones) {
+      for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+          if(grid[i][j].getSelected()) {
+            if(grid[i][j].getStatus()>0) {
+              black.addPoints(1);
+              grid[i][j].setStatus(0);
+              grid[i][j].deselect();
+            } else {
+              white.addPoints(1);
+              grid[i][j].setStatus(0);
+              grid[i][j].deselect();
+            }
 
+          }
+        }
       }
     }
   }

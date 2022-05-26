@@ -37,8 +37,8 @@ public class Point{
   }
 
   public boolean wasSelected(float xLoc, float yLoc) {
-    if (status == 0) {
-      return (dist(xVal, yVal, xLoc, yLoc) <= 150);
+    if (status != 0) {
+      return (dist(xVal, yVal, xLoc, yLoc) <= 75);
     }
     return false;
   }
