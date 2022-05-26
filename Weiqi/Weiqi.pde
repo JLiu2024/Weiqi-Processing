@@ -3,13 +3,14 @@ void setup() {
   frameRate(240);
 }
 
-boolean runningGame=false;
+boolean runningGame = false;
 Point[][] grid = new Point[9][9];
 int playerTurn = -1; //-1 is black, 1 is white
 int lastMouseX = mouseX;
 int lastMouseY = mouseY;
 double blackScore = 5;
 double whiteScore = 0;
+boolean removingStones = false;
 
 void draw() {
   if(!runningGame) {
@@ -34,6 +35,25 @@ void draw() {
       //game being played
 
       background(252,212,156);
+
+      rectMode(RADIUS);
+      fill(255);
+      rect((width/2)+600+(width-1200)/4,(height/2)-600,200,80);
+      fill(0);
+      if(!removingStones) {
+        text("Remove", (width/2)+600+(width-1200)/4,(height/2)-600);
+      } else {
+        text("Cancel", (width/2)+600+(width-1200)/4,(height/2)-600);
+      }
+
+      if(removingStones) {
+        fill(255);
+        rect((width/2)+600+(width-1200)/4,(height/2)-400,200,80);
+        fill(0);
+        text("Confirm", (width/2)+600+(width-1200)/4,(height/2)-400);
+      }
+      
+      
 
       float currentX = (width/2)-600;
       float currentY = (height/2)-600;
@@ -62,8 +82,15 @@ void draw() {
           
           if(grid[i][j].getStatus() > 0) {
             placeWhiteStone(currentX,currentY);
+            if(grid[i][j].getSelected()) {
+              markSelect(currentX,currentY);
+            }
+            
           } else if(grid[i][j].getStatus() < 0) {
             placeBlackStone(currentX,currentY);
+            if(grid[i][j].getSelected()) {
+              markSelect(currentX,currentY);
+            }
           }
           
           currentX+=150;
@@ -94,8 +121,16 @@ void placeBlackStone(float x, float y) {
   circle(x,y,150);
 }
 
+void markSelect(float x, float y) {
+  fill(255);
+  stroke(255);
+  circle(x,y,50);
+  fill(0);
+  stroke(0);
+}
+
 void mouseClicked() {
-  if(!runningGame&& lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
+  if(!runningGame && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
     //initialize grid, start with 9x9 grid of points
       
     drawPoint(width/2, height/2);
@@ -136,13 +171,17 @@ void mouseClicked() {
     
     runningGame=true;
 
-  } else {
+  } else if(runningGame && lastMouseX>((width/2)+600+(width-1200)/4-250) && lastMouseX<((width/2)+600+(width-1200)/4+250)  && lastMouseY>((height/2)-600-100) && lastMouseY<((height/2)-600+100)) {
+    if(removingStones) {
+      removingStones=false;
+    } else {
+      removingStones=true;
+    }
+  } else if(runningGame && !removingStones) {
     for(int i=0; i<9; i++) {
       for(int j=0; j<9; j++) {
         if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
           grid[i][j].setStatus(playerTurn);
-
-          removeDeadStones();
 
           if(playerTurn==1) {
             playerTurn=-1;
@@ -152,26 +191,24 @@ void mouseClicked() {
         }
       }
     }
-  }
-}
-
-void removeDeadStones() {
-  for(int i=0; i<9; i++) {
-    for(int j=0; j<9; j++) {
-      if(grid[i][j].getStatus()!=0) {
-        int thisStatus=grid[i][j].getStatus();
-
+  } else if(runningGame && removingStones) {
+    for(int i=0; i<9; i++) {
+      for(int j=0; j<9; j++) {
+        if(grid[i][j].wasSelected(lastMouseX,lastMouseY) && grid[i][j].getStatus()!=0) {
+          if(!grid[i][j].getSelected()) {
+            grid[i][j].select();
+          } else {
+            grid[i][j].deselect();
+          }         
+        }
+      }
+    }
+  } else if(runningGame && lastMouseX>((width/2)+600+(width-1200)/4-250) && lastMouseX<((width/2)+600+(width-1200)/4+250)  && lastMouseY>((height/2)-400-100) && lastMouseY<((height/2)-400+100)) {
+    
+    for(int i=0; i<9; i++) {
+      for(int j=0; j<9; j++) {
 
       }
     }
   }
-}
-
-boolean hasAdjacentStones(int x, int y, int status) {
-  if(x!=0 && y!=0 && x!=8 && y!=8) {
-    if(grid[x+1][y+1].getStatus()==status || grid[x-1][y+1].getStatus()==status || grid[x-1][y-1].getStatus()==status || grid[x+1][y-1].getStatus()==status) {
-      return true;
-    }
-  }
-  return false;
 }

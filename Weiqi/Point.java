@@ -4,11 +4,13 @@ public class Point{
   private float xVal;
   private float yVal;
   private int status;
+  private boolean isSelected;
   
   public Point(float xVal, float yVal) {
     this.xVal = xVal;
     this.yVal = yVal;
     status = 0;
+    isSelected = false;
   }
   
   public boolean wasClicked(float xLoc, float yLoc) {
@@ -32,5 +34,24 @@ public class Point{
 
   public int getStatus() {
     return status;
+  }
+
+  public boolean wasSelected(float xLoc, float yLoc) {
+    if (status == 0) {
+      return (dist(xVal, yVal, xLoc, yLoc) <= 150);
+    }
+    return false;
+  }
+
+  public void select() {
+    isSelected = true;
+  }
+
+  public void deselect() {
+    isSelected = false;
+  }
+
+  public boolean getSelected() {
+    return isSelected;
   }
 }
