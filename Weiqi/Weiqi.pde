@@ -173,4 +173,5 @@ boolean hasAdjacentStones(int x, int y, int status) {
       return true;
     }
   }
+  return false;
 }
