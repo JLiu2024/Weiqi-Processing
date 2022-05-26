@@ -8,6 +8,8 @@ Point[][] grid = new Point[9][9];
 int playerTurn = -1; //-1 is black, 1 is white
 int lastMouseX = mouseX;
 int lastMouseY = mouseY;
+double blackScore = 5;
+double whiteScore = 0;
 
 void draw() {
   if(!runningGame) {
@@ -139,6 +141,9 @@ void mouseClicked() {
       for(int j=0; j<9; j++) {
         if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
           grid[i][j].setStatus(playerTurn);
+
+          removeDeadStones();
+
           if(playerTurn==1) {
             playerTurn=-1;
           } else {
@@ -153,7 +158,19 @@ void mouseClicked() {
 void removeDeadStones() {
   for(int i=0; i<9; i++) {
     for(int j=0; j<9; j++) {
-      
+      if(grid[i][j].getStatus()!=0) {
+        int thisStatus=grid[i][j].getStatus();
+
+
+      }
+    }
+  }
+}
+
+boolean hasAdjacentStones(int x, int y, int status) {
+  if(x!=0 && y!=0 && x!=8 && y!=8) {
+    if(grid[x+1][y+1].getStatus()==status || grid[x-1][y+1].getStatus()==status || grid[x-1][y-1].getStatus()==status || grid[x+1][y-1].getStatus()==status) {
+      return true;
     }
   }
 }
