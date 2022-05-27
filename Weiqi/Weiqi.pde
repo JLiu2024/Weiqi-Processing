@@ -1,6 +1,7 @@
 void setup() {
   fullScreen();
   frameRate(240);
+  noStroke();
 }
 
 boolean runningGame = false;
@@ -19,13 +20,13 @@ boolean whitePass = false;
 
 void draw() {
   if(!runningGame) {
-      background(255);
+      background(252,212,156);
       textSize(128);
       text("Weiqi", width/2, height/3);
       fill(0);
       textAlign(CENTER,CENTER);
     
-      fill(128);
+      fill(255);
       rectMode(RADIUS);
       rect(width/2, 2*(height/3), 300, 100);
       
@@ -66,7 +67,7 @@ void draw() {
           text("Draw!", width/2, height/3);
           textAlign(CENTER,CENTER);
         }
-        fill(128);
+        fill(255);
         rectMode(RADIUS);
         rect(width/2, 2*(height/3), 300, 100);
         
@@ -135,6 +136,7 @@ void draw() {
         float currentX = (width/2)-600;
         float currentY = (height/2)-600;
         
+        stroke(0);
         strokeWeight(2);
 
         for(int i=0; i<9; i++) {
@@ -149,6 +151,8 @@ void draw() {
           line(currentX, currentY, currentX, currentY+1200);
           currentX+=150;
         }
+
+        noStroke();
 
         currentX = (width/2)-600;
         currentY = (height/2)-600;
@@ -254,6 +258,8 @@ void mouseClicked() {
 
     //now add the lines
 
+    stroke(0);
+
     currentX = (width/2)-600;
     currentY = (height/2)-600;
     
@@ -271,6 +277,8 @@ void mouseClicked() {
       line(currentX, currentY, currentX, currentY+1200);
       currentX+=150;
     }
+
+    noStroke();
     
     runningGame=true;
 
