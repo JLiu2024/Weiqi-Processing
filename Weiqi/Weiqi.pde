@@ -11,8 +11,6 @@ int lastMouseY = mouseY;
 double blackScore = 0;
 double whiteScore = 5;
 boolean removingStones = false;
-Player black = new Player(-1);
-Player white = new Player(1);
 boolean passedThisTurn = false;
 int consecutivePasses = 0;
 boolean gameEnded = false;
@@ -39,28 +37,68 @@ void draw() {
       lastMouseY = mouseY;
 
     } else {
+        background(252,212,156);
       //game being played
-
       if(gameEnded) {
-        background(255);
+      
+        fill(128);
+        rectMode(RADIUS);
+        rect(width/2, 2*(height/3), 300, 100);
+        
+        fill(0);
+        textSize(86);
+        text("New Game", width/2, 2*(height/3));
+        
         if(blackScore>whiteScore) {
           textSize(128);
-          text("Black Wins!", width/2, height/2);
+          fill(255);
+          text("Black Wins!", width/2, height/3);
           fill(0);
           textAlign(CENTER,CENTER);
         } else if(blackScore<whiteScore) {
           textSize(128);
-          text("White Wins!", width/2, height/2);
+          text("White Wins!", width/2, height/3);
           fill(0);
           textAlign(CENTER,CENTER);
         } else {
-          textSize(128);
-          text("Draw!", width/2, height/2);
-          fill(0);
+          fill(128);
+          textSize(128);          
+          text("Draw!", width/2, height/3);
           textAlign(CENTER,CENTER);
         }
+        fill(128);
+        rectMode(RADIUS);
+        rect(width/2, 2*(height/3), 300, 100);
+        
+        fill(0);
+        textSize(86);
+        text("Home", width/2, 2*(height/3));
       } else {
-        background(252,212,156);
+        
+        textSize(60);
+
+        if(blackPass) {
+          
+          // fill(255);
+          // rect((width/2)-600-(width-1200)/4,(height/2)-600,300,80);
+          fill(0);
+          text("Black has Passed!", (width/2)-600-(width-1200)/4,(height/2)+600);
+        } else if(whitePass) {
+          // fill(255);
+          // rect((width/2)-600-(width-1200)/4,(height/2)-600,300,80);
+          fill(0);
+          text("White has Passed!", (width/2)-600-(width-1200)/4,(height/2)+600);
+        }
+
+        // fill(255);
+        // rect((width/2)-600-(width-1200)/4,(height/2)-600,300,80);
+        fill(0);
+        if(playerTurn>1) {
+          text("White to move.", (width/2)-600-(width-1200)/4,(height/2));
+        } else {
+          text("Black to move.", (width/2)-600-(width-1200)/4,(height/2));
+        }
+        
 
         rectMode(RADIUS);
         fill(255);
@@ -84,13 +122,13 @@ void draw() {
         fill(0);
         text("Pass", (width/2)+600+(width-1200)/4,(height/2)+600);
 
-        fill(255);
-        rect((width/2)-600-(width-1200)/4,(height/2)-600,300,80);
+        // fill(255);
+        // rect((width/2)-600-(width-1200)/4,(height/2)-600,300,80);
         fill(0);
         text("Black: " + blackScore, (width/2)-600-(width-1200)/4,(height/2)-600);
 
-        fill(255);
-        rect((width/2)-600-(width-1200)/4,(height/2)-400,300,80);
+        // fill(255);
+        // rect((width/2)-600-(width-1200)/4,(height/2)-400,300,80);
         fill(0);
         text("White: " + whiteScore, (width/2)-600-(width-1200)/4,(height/2)-400);
 
@@ -176,7 +214,26 @@ void markSelect(float x, float y) {
 }
 
 void mouseClicked() {
-  if(!runningGame && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
+  if(gameEnded && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
+    runningGame = false;
+    for(int i=0; i<9; i++) {
+      for(int j=0; j<9; j++) {
+        grid[i][j].setStatus(0);
+      }
+    }
+    Point[][] grid = new Point[9][9];
+    playerTurn = -1; //-1 is black, 1 is white
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+    blackScore = 0;
+    whiteScore = 5;
+    removingStones = false;
+    passedThisTurn = false;
+    consecutivePasses = 0;
+    gameEnded = false;
+    blackPass = false;
+    whitePass = false;
+  } else if(!runningGame && lastMouseX>(width/2-150) && lastMouseX<(width/2+150) && lastMouseY>(2*(height/3)-50) && lastMouseY<(2*(height/3)+50)) {
     //initialize grid, start with 9x9 grid of points
       
     drawPoint(width/2, height/2);
@@ -228,17 +285,22 @@ void mouseClicked() {
     } else {
     removingStones=true;
     }
+    //passing
   } else if(runningGame && lastMouseX > (((width/2)+600+(width-1200)/4)-250) && lastMouseX < (((width/2)+600+(width-1200)/4)+250) && lastMouseY > (((height/2)+600)-100) && lastMouseY < (((height/2)+600)+100)) {
     if(playerTurn<0) {
       blackPass = true;
+      playerTurn=1;
     } else {
       whitePass = true;
+      playerTurn=-1;
     }
   } else if(runningGame && !removingStones) {
     for(int i=0; i<9; i++) {
       for(int j=0; j<9; j++) {
         if(grid[i][j].wasClicked(lastMouseX,lastMouseY)) {
           grid[i][j].setStatus(playerTurn);
+          blackPass = false;
+          whitePass = false;
 
           if(playerTurn==1) {
             playerTurn=-1;
